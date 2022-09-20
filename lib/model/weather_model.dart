@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class WeatherModel {
   DateTime date;
@@ -18,15 +19,14 @@ class WeatherModel {
 
   factory WeatherModel.fromJson(dynamic data) {
     var jsondata = data['forecast']['forecastday'][0]['day'];
-    // date = data['location']['localtime'];
-    // temp = jsondata['avgtemp_c'];
-    // maxTemp = jsondata['maxtemp_c'];
-    // minTemp = jsondata['mintemp_c'];
-    // icon = jsondata['condition']['icon'];
-    // weatherStateName = jsondata['condition']['text'];
+
+    String localtime = data['location']['localtime'];
+    DateFormat inputFormat = DateFormat('yyyy-MM-dd hh:mm');
+    DateTime input = inputFormat.parse(localtime);
+    String datee = DateFormat('yyyy-MM-dd hh:mm').format(input);
 
     return WeatherModel(
-        date: DateTime.parse(data['location']['localtime']),
+        date: DateTime.parse(datee),
         temp: jsondata['avgtemp_c'],
         maxTemp: jsondata['maxtemp_c'],
         minTemp: jsondata['mintemp_c'],
