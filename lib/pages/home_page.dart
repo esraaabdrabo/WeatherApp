@@ -11,6 +11,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Todo  no need for updating the whole widget when the weather data is updated, we need to update only the weather data and its related widgets.
     weatherData = Provider.of<WeatherProvider>(context).weatherData;
     return Scaffold(
       appBar: AppBar(
@@ -18,6 +19,8 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
+                // decoupling between navigation logic and UI, the UI should not be care about the navigation way(Dependency Inversion Principle).
+
                 Navigator.push(context,
                     MaterialPageRoute(builder: ((context) => SearchPage())));
               },
@@ -93,10 +96,10 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             )
-          : Center(
+          : const Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   Text(
                     'there is no weather 😔 start',
                     style: TextStyle(

@@ -7,15 +7,18 @@ import 'package:weather_app/services/weather_service.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-      create: (context) => WeatherProvider(), child: WeatherApp()));
+      create: (context) => WeatherProvider(), child: const WeatherApp()));
 }
 
 class WeatherApp extends StatelessWidget {
+  const WeatherApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Provider.of<WeatherProvider>(context).weatherData == null
+            //Todo using hard coded color is not a good practice, we need to use the color from a class after encapsulating the colors into one.
             ? Colors.blue
             : Provider.of<WeatherProvider>(context).weatherData!.getColor(),
       ),
