@@ -1,16 +1,9 @@
-# weather_app
+# **SOLID Principles Refactoring Project**
+This repository is a fork of an existing project that contains multiple violations of the SOLID principles. The goal of this project is to identify these issues, document them, and refactor the necessary parts to improve the overall design and maintainability of the code.
 
-A new Flutter project.
+## **Objectives**
+- Analyze the codebase and highlight violations of SOLID principles.
+- Provide detailed explanations for each issue, linking them to specific principles.
+- Implement refactoring techniques to improve code quality while preserving functionality.
+- Apply relevant design patterns where needed to enhance scalability and maintainability.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
