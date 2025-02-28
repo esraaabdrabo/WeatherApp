@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/model/weather_model.dart';
+import 'package:weather_app/model/weather_state.dart';
 import 'package:weather_app/pages/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/provider/weather_model_provider.dart';
@@ -20,7 +21,7 @@ class WeatherApp extends StatelessWidget {
         primarySwatch: Provider.of<WeatherProvider>(context).weatherData == null
             //Todo using hard coded color is not a good practice, we need to use the color from a class after encapsulating the colors into one.
             ? Colors.blue
-            : Provider.of<WeatherProvider>(context).weatherData!.getColor(),
+            : Provider.of<WeatherProvider>(context).weatherData!.state.color,
       ),
       debugShowCheckedModeBanner: false,
       home: HomePage(),

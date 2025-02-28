@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/model/weather_model.dart';
+import 'package:weather_app/model/weather_state.dart';
 import 'package:weather_app/pages/search_page.dart';
 import 'package:weather_app/provider/weather_model_provider.dart';
 
@@ -36,13 +37,16 @@ class HomePage extends StatelessWidget {
                       colors: [
                     Provider.of<WeatherProvider>(context)
                         .weatherData!
-                        .getColor()[500]!,
+                        .state
+                        .color[500]!,
                     Provider.of<WeatherProvider>(context)
                         .weatherData!
-                        .getColor()[300]!,
+                        .state
+                        .color[300]!,
                     Provider.of<WeatherProvider>(context)
                         .weatherData!
-                        .getColor()[100]!,
+                        .state
+                        .color[100]!,
                   ])),
               child: Column(
                 children: [
@@ -86,7 +90,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    weatherData!.weatherStateName,
+                    weatherData!.state.displayName,
                     style: const TextStyle(
                         fontSize: 32, fontWeight: FontWeight.bold),
                   ),
