@@ -1,19 +1,21 @@
 // ignore_for_file: slash_for_doc_comments
 
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/services/api_endpoints.dart';
 import 'package:weather_app/services/app_error_handler.dart';
 import 'package:weather_app/services/app_exception.dart';
+import 'package:weather_app/services/http_client.dart';
 import 'package:weather_app/services/weather_service_queries.dart';
 
 class WeatherService {
+  final HttpClient _client = HttpClient.instance;
   Future<WeatherModel?> getWeather({
     required WeatherServiceQueries quires,
   }) async {
     final WeatherModel? weather;
-    http.Response? response;
+    Response? response;
     try {
       // TODO: Separate the data fetching logic into a new HttpClient class.
       // TODO: Move the parsing logic to a separate method.
@@ -70,7 +72,7 @@ This means:
 
  */
 
-      response = await http.get(url);
+      response = await _client.get(url);
       if (response.statusCode != 200) {
         final AppException? exception =
             AppErrorHandler.handle(response: response);
@@ -91,13 +93,13 @@ This means:
     required WeatherServiceQueries quires,
   }) async {
     final WeatherModel? weather;
-    http.Response? response;
+    Response? response;
     try {
       final Uri url = Uri.parse(ApiEndpoints.history)
           .replace(queryParameters: quires.toJson());
 
       // need client.
-      response = await http.get(url);
+      response = await _client.get(url);
       if (response.statusCode != 200) {
         final AppException? exception =
             AppErrorHandler.handle(response: response);
@@ -206,7 +208,7 @@ Hardcoding paths as strings **doesn't immediately break SOLID**, but:
 - Use **`ApiConfig` to handle versioning and the base URL**.  
 - Construct URIs dynamically using **`replace(queryParameters: {...})`**.  
 ---
- */
+
 
 class _WeatherService {
   Future<WeatherModel?> getWeather({required String cityName}) async {
@@ -229,3 +231,4 @@ class _WeatherService {
     return weather;
   }
 }
+ */
