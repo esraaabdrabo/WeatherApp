@@ -4,10 +4,59 @@ import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/provider/weather_model_provider.dart';
 import 'package:weather_app/services/weather_service.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
   String? cityName;
 
-  SearchPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Search a city')),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          //Todo it's preferred to extract the TextField to a separate widget to make the code more readable, maintainable, and to be reused whenever it's needed.
+          child: TextField(
+            onSubmitted: ((data) async {
+              Provider.of<WeatherProvider>(context, listen: false)
+                  .getWeather(cityName: cityName!);
+              Navigator.pop(context);
+            }),
+            decoration: InputDecoration(
+                suffixIcon: GestureDetector(
+                  onTap: () async {
+                    Provider.of<WeatherProvider>(context, listen: false)
+                        .getWeather(cityName: cityName!);
+
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.search),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+                hintText: 'Search a city',
+                label: const Text('Search'),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(width: 1),
+                )),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable, unused_element
+class _SearchPage extends StatelessWidget {
+  String? cityName;
+
+  _SearchPage();
 
   @override
   Widget build(BuildContext context) {
