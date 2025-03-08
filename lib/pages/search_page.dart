@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/model/weather_model.dart';
-import 'package:weather_app/provider/weather_model_provider.dart';
+import 'package:weather_app/provider/weather_provider.dart';
 import 'package:weather_app/services/weather_service.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,8 +12,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  String? cityName;
-
+  final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,16 +22,18 @@ class _SearchPageState extends State<SearchPage> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           //Todo it's preferred to extract the TextField to a separate widget to make the code more readable, maintainable, and to be reused whenever it's needed.
           child: TextField(
+            controller: searchController,
             onSubmitted: ((data) async {
               Provider.of<WeatherProvider>(context, listen: false)
-                  .getWeather(cityName: cityName!);
+                  .getWeather(name: searchController.text);
               Navigator.pop(context);
             }),
             decoration: InputDecoration(
                 suffixIcon: GestureDetector(
                   onTap: () async {
+                    if (searchController.text.isEmpty) return;
                     Provider.of<WeatherProvider>(context, listen: false)
-                        .getWeather(cityName: cityName!);
+                        .getWeather(name: searchController.text);
 
                     Navigator.pop(context);
                   },

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/model/weather_state.dart';
 import 'package:weather_app/pages/home_page.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/provider/weather_model_provider.dart';
-import 'package:weather_app/services/weather_service.dart';
+import 'package:weather_app/provider/weather_provider.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -24,7 +22,7 @@ class WeatherApp extends StatelessWidget {
             : Provider.of<WeatherProvider>(context).weatherData!.state.color,
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

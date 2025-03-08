@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/model/weather_model.dart';
@@ -7,6 +9,8 @@ class WeatherProvider extends ChangeNotifier {
   WeatherModel? _weatherData;
 
   String? cityName;
+  String? errorMessage;
+  bool isLoading = false;
   set weatherData(WeatherModel? weather) {
     //Todo: the provider is responsible for updating the UI and managing the state, so here we need to manage the fetching logic and the error handling.
     _weatherData = weather;
@@ -14,13 +18,23 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<WeatherModel?> getWeather({required String cityName}) async {
+  Future<WeatherModel?> getWeather({required String name}) async {
     //Todo need to use singleton pattern here instead of creating an instance every time we need to get the weather data.
-    final WeatherService weatherService = WeatherService();
-    final WeatherModel? result =
-        await weatherService.getWeather(cityName: cityName);
-    _weatherData = result;
-    cityName = cityName;
+    isLoading = true;
+    notifyListeners();
+    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final WeatherService weatherService = WeatherService();
+      final WeatherModel? result =
+          await weatherService.getWeather(cityName: name);
+      _weatherData = result;
+      cityName = name;
+      errorMessage = null;
+    } on AppException catch (e) {
+      errorMessage = e.message;
+    }
+    isLoading = false;
+    notifyListeners();
     return _weatherData;
   }
 
