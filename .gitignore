@@ -32,6 +32,10 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Ignore API key config file
+lib/services/weather_service_config.dart
+
+
 # Symbolication related
 app.*.symbols
 
