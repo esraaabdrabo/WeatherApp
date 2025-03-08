@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/provider/weather_provider.dart';
-import 'package:weather_app/services/weather_service.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -53,8 +51,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 }
 
-// ignore: must_be_immutable, unused_element
-class _SearchPage extends StatelessWidget {
+/**class _SearchPage extends StatelessWidget {
   String? cityName;
 
   _SearchPage();
@@ -116,3 +113,4 @@ class _SearchPage extends StatelessWidget {
     );
   }
 }
+*/

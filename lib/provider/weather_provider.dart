@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/services/app_exception.dart';
 import 'package:weather_app/services/weather_service.dart';
+import 'package:weather_app/services/weather_service_queries.dart';
 
 class WeatherProvider extends ChangeNotifier {
   WeatherModel? _weatherData;
@@ -24,8 +25,8 @@ class WeatherProvider extends ChangeNotifier {
     await Future.delayed(const Duration(seconds: 1));
     try {
       final WeatherService weatherService = WeatherService();
-      final WeatherModel? result =
-          await weatherService.getWeather(cityName: name);
+      final WeatherModel? result = await weatherService.getWeather(
+          quires: WeatherServiceQueries(cityName: name));
       _weatherData = result;
       cityName = name;
       errorMessage = null;
