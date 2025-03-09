@@ -10,6 +10,9 @@ import 'package:weather_app/services/http_client.dart';
 import 'package:weather_app/services/weather_service_queries.dart';
 
 class WeatherService {
+  WeatherService._();
+  static final WeatherService _instance = WeatherService._();
+  static WeatherService get instance => _instance;
   final HttpClient _client = HttpClient.instance;
   Future<WeatherModel?> getWeather({
     required WeatherServiceQueries quires,
@@ -17,9 +20,6 @@ class WeatherService {
     final WeatherModel? weather;
     Response? response;
     try {
-      // TODO: Separate the data fetching logic into a new HttpClient class.
-      // TODO: Move the parsing logic to a separate method.
-
       final Uri url = Uri.parse(ApiEndpoints.forecast).replace(
         queryParameters: quires.toJson(),
       );

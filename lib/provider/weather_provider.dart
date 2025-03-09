@@ -6,6 +6,8 @@ import 'package:weather_app/services/weather_service.dart';
 import 'package:weather_app/services/weather_service_queries.dart';
 
 class WeatherProvider extends ChangeNotifier {
+  final WeatherService weatherService = WeatherService.instance;
+
   WeatherModel? _weatherData;
 
   String? cityName;
@@ -24,7 +26,6 @@ class WeatherProvider extends ChangeNotifier {
     notifyListeners();
     await Future.delayed(const Duration(seconds: 1));
     try {
-      final WeatherService weatherService = WeatherService();
       final WeatherModel? result = await weatherService.getWeather(
           quires: WeatherServiceQueries(cityName: name));
       _weatherData = result;
