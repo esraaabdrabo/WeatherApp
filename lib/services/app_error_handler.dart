@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:weather_app/services/app_exception.dart';
 
 class AppErrorHandler {
-  static AppException? handle({http.Response? response, Object? exception}) {
+  static AppException? handle({Response? response, Object? exception}) {
     if (exception is AppException) {
       return exception;
     }
@@ -14,7 +14,7 @@ class AppErrorHandler {
       if (error != null) {
         if (error['code'] == 2008) {
           return AppException(
-            'The service is down for some reason try again later.',
+            ErrorMessages.serviceDown,
             response.statusCode,
           );
         }
@@ -23,14 +23,23 @@ class AppErrorHandler {
     }
     if (exception is SocketException) {
       return const AppException(
-        'Please check your internet connection and try again.',
+        ErrorMessages.noInternet,
         500,
       );
     } else {
       return AppException(
-        'Failed to get weather data, please try again later.',
+        ErrorMessages.genericError,
         response?.statusCode ?? 500,
       );
     }
   }
+}
+
+class ErrorMessages {
+  static const String serviceDown =
+      'The service is down for some reason, try again later.';
+  static const String noInternet =
+      'Please check your internet connection and try again.';
+  static const String genericError =
+      'Failed to get weather data, please try again later.';
 }
