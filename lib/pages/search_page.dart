@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weather_app/provider/weather_provider.dart';
+import 'package:weather_app/widgets/search_text_field.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -18,32 +17,11 @@ class _SearchPageState extends State<SearchPage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          //Todo it's preferred to extract the TextField to a separate widget to make the code more readable, maintainable, and to be reused whenever it's needed.
-          child: TextField(
+          child: SearchTextField(
             controller: searchController,
-            onSubmitted: ((data) async {
-              Provider.of<WeatherProvider>(context, listen: false)
-                  .getWeather(name: searchController.text);
-              Navigator.pop(context);
-            }),
-            decoration: InputDecoration(
-                suffixIcon: GestureDetector(
-                  onTap: () async {
-                    if (searchController.text.isEmpty) return;
-                    Provider.of<WeatherProvider>(context, listen: false)
-                        .getWeather(name: searchController.text);
+            // Returning the search term ensures that the search screen now can be used in multiple screens without direct provider access, which follows Dependency inversion.
 
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(Icons.search),
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-                hintText: 'Search a city',
-                label: const Text('Search'),
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 1),
-                )),
+            onSearch: () => Navigator.pop(context, searchController.text),
           ),
         ),
       ),

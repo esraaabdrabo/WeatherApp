@@ -27,14 +27,20 @@ class _HomePageState extends State<HomePage> {
           title: const Text('Weather'),
           actions: [
             IconButton(
-              onPressed: () {
+              onPressed: () async {
                 // decoupling between navigation logic and UI, the UI should not be care about the navigation way(Dependency Inversion Principle).
-                Navigator.push(
+                final String? searchTerm = await Navigator.push<String>(
                   context,
                   MaterialPageRoute(
                     builder: ((context) => const SearchPage()),
                   ),
                 );
+                if (searchTerm?.isEmpty ?? false) {
+                  if (context.mounted) {
+                    Provider.of<WeatherProvider>(context)
+                        .getWeather(name: searchTerm!);
+                  }
+                }
               },
               icon: const Icon(Icons.search),
             )
