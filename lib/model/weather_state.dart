@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/app_colors.dart';
+import 'package:weather_app/model/weather_strings.dart';
 
 enum WeatherState {
   sunny,
@@ -48,13 +50,13 @@ extension WeatherStateExtension on WeatherState {
   MaterialColor get color {
     switch (this) {
       case WeatherState.sunny:
-        return Colors.orange;
+        return AppColors.orange;
       case WeatherState.partlyCloudy:
       case WeatherState.cloudy:
-        return Colors.blueGrey;
+        return AppColors.blueGrey;
       case WeatherState.overcast:
       case WeatherState.mist:
-        return Colors.deepPurple;
+        return AppColors.deepPurple;
       case WeatherState.patchyRainPossible:
       case WeatherState.patchyLightRain:
       case WeatherState.lightRain:
@@ -67,7 +69,7 @@ extension WeatherStateExtension on WeatherState {
       case WeatherState.torrentialRainShower:
       case WeatherState.patchyLightRainWithThunder:
       case WeatherState.moderateOrHeavyRainWithThunder:
-        return Colors.brown;
+        return AppColors.brown;
       case WeatherState.moderateOrHeavySnowWithThunder:
       case WeatherState.patchyLightSnowWithThunder:
       case WeatherState.moderateOrHeavySnowShowers:
@@ -80,11 +82,11 @@ extension WeatherStateExtension on WeatherState {
       case WeatherState.patchyModerateSnow:
       case WeatherState.lightSnow:
       case WeatherState.patchyLightSnow:
-        return Colors.grey;
+        return AppColors.grey;
       case WeatherState.moderateOrHeavyShowersOfIcePellets:
       case WeatherState.lightShowersOfIcePellets:
       case WeatherState.icePellets:
-        return Colors.yellow;
+        return AppColors.yellow;
       case WeatherState.lightSleet:
       case WeatherState.moderateOrHeavySleet:
       case WeatherState.freezingDrizzle:
@@ -93,60 +95,60 @@ extension WeatherStateExtension on WeatherState {
       case WeatherState.freezingFog:
       case WeatherState.thunderyOutbreaksPossible:
       case WeatherState.patchySleetPossible:
-        return Colors.blue;
+        return AppColors.blue;
       case WeatherState.unknown:
-        return Colors.red;
+        return AppColors.red;
     }
   }
 
   static WeatherState fromString(String weatherStateName) {
     switch (weatherStateName) {
-      case "Sunny":
+      case WeatherStrings.sunny:
         return WeatherState.sunny;
-      case "Partly cloudy":
-      case "Cloudy":
+      case WeatherStrings.partlyCloudy:
+      case WeatherStrings.cloudy:
         return WeatherState.partlyCloudy;
-      case "Overcast":
-      case "Mist":
+      case WeatherStrings.overcast:
+      case WeatherStrings.mist:
         return WeatherState.overcast;
-      case "Patchy rain possible":
-      case "Patchy light rain":
-      case "Light rain":
-      case "Moderate rain at times":
-      case "Moderate rain":
-      case "Heavy rain at times":
-      case "Heavy rain":
-      case "Light freezing rain":
-      case "Moderate or heavy rain shower":
-      case "Torrential rain shower":
-      case "Patchy light rain with thunder":
-      case "Moderate or heavy rain with thunder":
+      case WeatherStrings.patchyRainPossible:
+      case WeatherStrings.patchyLightRain:
+      case WeatherStrings.lightRain:
+      case WeatherStrings.moderateRainAtTimes:
+      case WeatherStrings.moderateRain:
+      case WeatherStrings.heavyRainAtTimes:
+      case WeatherStrings.heavyRain:
+      case WeatherStrings.lightFreezingRain:
+      case WeatherStrings.moderateOrHeavyRainShower:
+      case WeatherStrings.torrentialRainShower:
+      case WeatherStrings.patchyLightRainWithThunder:
+      case WeatherStrings.moderateOrHeavyRainWithThunder:
         return WeatherState.patchyRainPossible;
-      case "Moderate or heavy snow with thunder":
-      case "Patchy light snow with thunder":
-      case "Moderate or heavy snow showers":
-      case "Light snow showers":
-      case "Moderate or heavy sleet showers":
-      case "Light sleet showers":
-      case "Heavy snow":
-      case "Patchy heavy snow":
-      case "Moderate snow":
-      case "Patchy moderate snow":
-      case "Light snow":
-      case "Patchy light snow":
+      case WeatherStrings.moderateOrHeavySnowWithThunder:
+      case WeatherStrings.patchyLightSnowWithThunder:
+      case WeatherStrings.moderateOrHeavySnowShowers:
+      case WeatherStrings.lightSnowShowers:
+      case WeatherStrings.moderateOrHeavySleetShowers:
+      case WeatherStrings.lightSleetShowers:
+      case WeatherStrings.heavySnow:
+      case WeatherStrings.patchyHeavySnow:
+      case WeatherStrings.moderateSnow:
+      case WeatherStrings.patchyModerateSnow:
+      case WeatherStrings.lightSnow:
+      case WeatherStrings.patchyLightSnow:
         return WeatherState.moderateOrHeavySnowWithThunder;
-      case "Moderate or heavy showers of ice pellets":
-      case "Light showers of ice pellets":
-      case "Ice pellets":
+      case WeatherStrings.moderateOrHeavyShowersOfIcePellets:
+      case WeatherStrings.lightShowersOfIcePellets:
+      case WeatherStrings.icePellets:
         return WeatherState.moderateOrHeavyShowersOfIcePellets;
-      case "Light sleet":
-      case "Moderate or heavy sleet":
-      case "Freezing drizzle":
-      case "Light drizzle":
-      case "Patchy light drizzle":
-      case "Freezing fog":
-      case "Thundery outbreaks possible":
-      case "Patchy sleet possible":
+      case WeatherStrings.lightSleet:
+      case WeatherStrings.moderateOrHeavySleet:
+      case WeatherStrings.freezingDrizzle:
+      case WeatherStrings.lightDrizzle:
+      case WeatherStrings.patchyLightDrizzle:
+      case WeatherStrings.freezingFog:
+      case WeatherStrings.thunderyOutbreaksPossible:
+      case WeatherStrings.patchySleetPossible:
         return WeatherState.lightSleet;
       default:
         return WeatherState.unknown;
@@ -156,87 +158,87 @@ extension WeatherStateExtension on WeatherState {
   String get displayName {
     switch (this) {
       case WeatherState.sunny:
-        return "Sunny";
+        return WeatherStrings.sunny;
       case WeatherState.partlyCloudy:
-        return "Partly cloudy";
+        return WeatherStrings.partlyCloudy;
       case WeatherState.cloudy:
-        return "Cloudy";
+        return WeatherStrings.cloudy;
       case WeatherState.overcast:
-        return "Overcast";
+        return WeatherStrings.overcast;
       case WeatherState.mist:
-        return "Mist";
+        return WeatherStrings.mist;
       case WeatherState.patchyRainPossible:
-        return "Patchy rain possible";
+        return WeatherStrings.patchyRainPossible;
       case WeatherState.patchyLightRain:
-        return "Patchy light rain";
+        return WeatherStrings.patchyLightRain;
       case WeatherState.lightRain:
-        return "Light rain";
+        return WeatherStrings.lightRain;
       case WeatherState.moderateRainAtTimes:
-        return "Moderate rain at times";
+        return WeatherStrings.moderateRainAtTimes;
       case WeatherState.moderateRain:
-        return "Moderate rain";
+        return WeatherStrings.moderateRain;
       case WeatherState.heavyRainAtTimes:
-        return "Heavy rain at times";
+        return WeatherStrings.heavyRainAtTimes;
       case WeatherState.heavyRain:
-        return "Heavy rain";
+        return WeatherStrings.heavyRain;
       case WeatherState.lightFreezingRain:
-        return "Light freezing rain";
+        return WeatherStrings.lightFreezingRain;
       case WeatherState.moderateOrHeavyRainShower:
-        return "Moderate or heavy rain shower";
+        return WeatherStrings.moderateOrHeavyRainShower;
       case WeatherState.torrentialRainShower:
-        return "Torrential rain shower";
+        return WeatherStrings.torrentialRainShower;
       case WeatherState.patchyLightRainWithThunder:
-        return "Patchy light rain with thunder";
+        return WeatherStrings.patchyLightRainWithThunder;
       case WeatherState.moderateOrHeavyRainWithThunder:
-        return "Moderate or heavy rain with thunder";
+        return WeatherStrings.moderateOrHeavyRainWithThunder;
       case WeatherState.moderateOrHeavySnowWithThunder:
-        return "Moderate or heavy snow with thunder";
+        return WeatherStrings.moderateOrHeavySnowWithThunder;
       case WeatherState.patchyLightSnowWithThunder:
-        return "Patchy light snow with thunder";
+        return WeatherStrings.patchyLightSnowWithThunder;
       case WeatherState.moderateOrHeavySnowShowers:
-        return "Moderate or heavy snow showers";
+        return WeatherStrings.moderateOrHeavySnowShowers;
       case WeatherState.lightSnowShowers:
-        return "Light snow showers";
+        return WeatherStrings.lightSnowShowers;
       case WeatherState.moderateOrHeavySleetShowers:
-        return "Moderate or heavy sleet showers";
+        return WeatherStrings.moderateOrHeavySleetShowers;
       case WeatherState.lightSleetShowers:
-        return "Light sleet showers";
+        return WeatherStrings.lightSleetShowers;
       case WeatherState.heavySnow:
-        return "Heavy snow";
+        return WeatherStrings.heavySnow;
       case WeatherState.patchyHeavySnow:
-        return "Patchy heavy snow";
+        return WeatherStrings.patchyHeavySnow;
       case WeatherState.moderateSnow:
-        return "Moderate snow";
+        return WeatherStrings.moderateSnow;
       case WeatherState.patchyModerateSnow:
-        return "Patchy moderate snow";
+        return WeatherStrings.patchyModerateSnow;
       case WeatherState.lightSnow:
-        return "Light snow";
+        return WeatherStrings.lightSnow;
       case WeatherState.patchyLightSnow:
-        return "Patchy light snow";
+        return WeatherStrings.patchyLightSnow;
       case WeatherState.moderateOrHeavyShowersOfIcePellets:
-        return "Moderate or heavy showers of ice pellets";
+        return WeatherStrings.moderateOrHeavyShowersOfIcePellets;
       case WeatherState.lightShowersOfIcePellets:
-        return "Light showers of ice pellets";
+        return WeatherStrings.lightShowersOfIcePellets;
       case WeatherState.icePellets:
-        return "Ice pellets";
+        return WeatherStrings.icePellets;
       case WeatherState.lightSleet:
-        return "Light sleet";
+        return WeatherStrings.lightSleet;
       case WeatherState.moderateOrHeavySleet:
-        return "Moderate or heavy sleet";
+        return WeatherStrings.moderateOrHeavySleet;
       case WeatherState.freezingDrizzle:
-        return "Freezing drizzle";
+        return WeatherStrings.freezingDrizzle;
       case WeatherState.lightDrizzle:
-        return "Light drizzle";
+        return WeatherStrings.lightDrizzle;
       case WeatherState.patchyLightDrizzle:
-        return "Patchy light drizzle";
+        return WeatherStrings.patchyLightDrizzle;
       case WeatherState.freezingFog:
-        return "Freezing fog";
+        return WeatherStrings.freezingFog;
       case WeatherState.thunderyOutbreaksPossible:
-        return "Thundery outbreaks possible";
+        return WeatherStrings.thunderyOutbreaksPossible;
       case WeatherState.patchySleetPossible:
-        return "Patchy sleet possible";
+        return WeatherStrings.patchySleetPossible;
       case WeatherState.unknown:
-        return "Unknown";
+        return WeatherStrings.unknown;
     }
   }
 }

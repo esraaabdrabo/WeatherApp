@@ -1,5 +1,3 @@
-// ignore_for_file: slash_for_doc_comments
-
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:weather_app/model/weather_model.dart';
@@ -14,16 +12,13 @@ class WeatherService {
   static final WeatherService _instance = WeatherService._();
   static WeatherService get instance => _instance;
   final HttpClient _client = HttpClient.instance;
+
   Future<WeatherModel?> getWeather({
     required WeatherServiceQueries quires,
   }) async {
     final WeatherModel? weather;
     Response? response;
     try {
-      final Uri url = Uri.parse(ApiEndpoints.forecast).replace(
-        queryParameters: quires.toJson(),
-      );
-
 //
 // instead of the following code we created WeatherServiceQueries class to handle the query parameters.
 /** final Uri url = Uri.parse(ApiEndpoints.forecast).replace(
@@ -72,7 +67,10 @@ This means:
 
  */
 
-      response = await _client.get(url);
+      response = await _client.get(
+        ApiEndpoints.forecast,
+        queryParameters: quires.toJson(),
+      );
       if (response.statusCode != 200) {
         final AppException? exception =
             AppErrorHandler.handle(response: response);
@@ -95,11 +93,10 @@ This means:
     final WeatherModel? weather;
     Response? response;
     try {
-      final Uri url = Uri.parse(ApiEndpoints.history)
-          .replace(queryParameters: quires.toJson());
-
-      // need client.
-      response = await _client.get(url);
+      response = await _client.get(
+        ApiEndpoints.history,
+        queryParameters: quires.toJson(),
+      );
       if (response.statusCode != 200) {
         final AppException? exception =
             AppErrorHandler.handle(response: response);

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/app_colors.dart';
 import 'package:weather_app/model/weather_state.dart';
 import 'package:weather_app/pages/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/provider/weather_provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => WeatherProvider(), child: const WeatherApp()));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => WeatherProvider(),
+      child: const WeatherApp(),
+    ),
+  );
 }
 
 class WeatherApp extends StatelessWidget {
@@ -16,10 +21,9 @@ class WeatherApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Provider.of<WeatherProvider>(context).weatherData == null
-            //Todo using hard coded color is not a good practice, we need to use the color from a class after encapsulating the colors into one.
-            ? Colors.blue
-            : Provider.of<WeatherProvider>(context).weatherData!.state.color,
+        primarySwatch:
+            Provider.of<WeatherProvider>(context).weatherData?.state.color ??
+                AppColors.blue,
       ),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
