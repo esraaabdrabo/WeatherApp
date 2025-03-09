@@ -20,7 +20,6 @@ class _SearchPageState extends State<SearchPage> {
           child: SearchTextField(
             controller: searchController,
             // Returning the search term ensures that the search screen now can be used in multiple screens without direct provider access, which follows Dependency inversion.
-
             onSearch: () => Navigator.pop(context, searchController.text),
           ),
         ),

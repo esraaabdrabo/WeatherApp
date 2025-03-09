@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/model/weather_model.dart';
@@ -29,15 +27,15 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               onPressed: () async {
                 // decoupling between navigation logic and UI, the UI should not be care about the navigation way(Dependency Inversion Principle).
-                final String? searchTerm = await Navigator.push<String>(
+                final String? searchTerm = await Navigator.push<String?>(
                   context,
                   MaterialPageRoute(
                     builder: ((context) => const SearchPage()),
                   ),
                 );
-                if (searchTerm?.isEmpty ?? false) {
+                if (searchTerm?.isNotEmpty ?? false) {
                   if (context.mounted) {
-                    Provider.of<WeatherProvider>(context)
+                    Provider.of<WeatherProvider>(context, listen: false)
                         .getWeather(name: searchTerm!);
                   }
                 }
@@ -51,89 +49,86 @@ class _HomePageState extends State<HomePage> {
             weatherData = Provider.of<WeatherProvider>(context).weatherData;
             errorMessage = Provider.of<WeatherProvider>(context).errorMessage;
             isLoading = Provider.of<WeatherProvider>(context).isLoading;
-
-            return isLoading
-                ? const _LoadingView()
-                : errorMessage != null
-                    ? _ErrorView(errorMessage: errorMessage!)
-                    : weatherData != null
-                        ? Container(
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                  Provider.of<WeatherProvider>(context)
-                                      .weatherData!
-                                      .state
-                                      .color[500]!,
-                                  Provider.of<WeatherProvider>(context)
-                                      .weatherData!
-                                      .state
-                                      .color[300]!,
-                                  Provider.of<WeatherProvider>(context)
-                                      .weatherData!
-                                      .state
-                                      .color[100]!,
-                                ])),
-                            child: Column(
-                              children: [
-                                const Spacer(
-                                  flex: 3,
-                                ),
-                                Text(
-                                  Provider.of<WeatherProvider>(context)
-                                      .cityName!,
-                                  style: const TextStyle(
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  'update at ${weatherData!.date.hour.toString()}: ${weatherData!.date.minute.toString()}',
-                                  style: const TextStyle(fontSize: 22),
-                                ),
-                                const Spacer(),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Image.network(
-                                      'https:${weatherData!.icon.toString()}',
-                                    ),
-                                    Text(
-                                      '${weatherData!.temp.toInt()}',
-                                      style: const TextStyle(
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          'maxTemp : ${weatherData!.maxTemp.toInt()}',
-                                          style: const TextStyle(fontSize: 18),
-                                        ),
-                                        Text(
-                                          'minTemp : ${weatherData!.minTemp.toInt()}',
-                                          style: const TextStyle(fontSize: 18),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                const Spacer(),
-                                Text(
-                                  weatherData!.state.displayName,
-                                  style: const TextStyle(
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const Spacer(
-                                  flex: 5,
-                                )
-                              ],
+            if (isLoading) {
+              return const _LoadingView();
+            }
+            if (errorMessage != null) {
+              return _ErrorView(errorMessage: errorMessage!);
+            }
+            if (weatherData != null) {
+              return Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                      Provider.of<WeatherProvider>(context)
+                          .weatherData!
+                          .state
+                          .color[500]!,
+                      Provider.of<WeatherProvider>(context)
+                          .weatherData!
+                          .state
+                          .color[300]!,
+                      Provider.of<WeatherProvider>(context)
+                          .weatherData!
+                          .state
+                          .color[100]!,
+                    ])),
+                child: Column(
+                  children: [
+                    const Spacer(
+                      flex: 3,
+                    ),
+                    Text(
+                      Provider.of<WeatherProvider>(context).cityName!,
+                      style: const TextStyle(
+                          fontSize: 32, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'update at ${weatherData!.date.hour.toString()}: ${weatherData!.date.minute.toString()}',
+                      style: const TextStyle(fontSize: 22),
+                    ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.network(
+                          'https:${weatherData!.icon.toString()}',
+                        ),
+                        Text(
+                          '${weatherData!.temp.toInt()}',
+                          style: const TextStyle(
+                              fontSize: 32, fontWeight: FontWeight.bold),
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              'maxTemp : ${weatherData!.maxTemp.toInt()}',
+                              style: const TextStyle(fontSize: 18),
                             ),
-                          )
-                        : const _NoDataView();
+                            Text(
+                              'minTemp : ${weatherData!.minTemp.toInt()}',
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    const Spacer(),
+                    Text(
+                      weatherData!.state.displayName,
+                      style: const TextStyle(
+                          fontSize: 32, fontWeight: FontWeight.bold),
+                    ),
+                    const Spacer(
+                      flex: 5,
+                    )
+                  ],
+                ),
+              );
+            }
+            return const _NoDataView();
           },
         ));
   }

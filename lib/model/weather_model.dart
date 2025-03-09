@@ -1,65 +1,48 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:equatable/equatable.dart';
+import 'package:weather_app/date_time_helper.dart';
 import 'package:weather_app/model/weather_state.dart';
 
-//Todo extend Equatable to make the model comparable and to make immutable.
-class WeatherModel {
-  // ignore: slash_for_doc_comments
-  /**SOLID Principle: Open/Closed Principle (OCP)
-Issue:
-If variables are mutable, modifying an object’s state later in the program may require unnecessary changes to other parts of the code.
-Link to OCP:
-A class should be open for extension but closed for modification.
-Using final enforces immutability, reducing the need to modify existing classes.
-Solution:
-If a variable never needs to change, marking it as final prevents unintended modifications.
-This ensures that modifications to logic don’t require changing class internals.
- */
+class WeatherModel extends Equatable {
   final DateTime date;
   final double temp;
   final double maxTemp;
   final double minTemp;
   final WeatherState state;
   final String icon;
-
-  WeatherModel(
-      {required this.date,
-      required this.temp,
-      required this.maxTemp,
-      required this.minTemp,
-      required this.state,
-      required this.icon});
+  const WeatherModel({
+    required this.date,
+    required this.temp,
+    required this.maxTemp,
+    required this.minTemp,
+    required this.state,
+    required this.icon,
+  });
 
   factory WeatherModel.fromJson(dynamic data) {
-    var jsonData = data['forecast']['forecastday'][0]['day'];
-
-    String localTime = data['location']['localtime'];
-    //Todo encapsulate this formatting to make sure that every part in the app that will need to format the date will use the same format (consistency).
-/**Why is this a violation?
-The model should only store and represent data, not format it.
-Date parsing and formatting should be handled in a separate helper class or in the UI layer.
-If another part of the app needs a different date format, you would need to modify the model, breaking SRP.
-Fix: Move Formatting to a Utility Class */
-    DateFormat inputFormat = DateFormat('yyyy-MM-dd hh:mm');
-    DateTime input = inputFormat.parse(localTime);
-    String date = DateFormat('yyyy-MM-dd hh:mm').format(input);
-
+    final jsonData = data['forecast']['forecastday'][0]['day'];
+    final String localTime = data['location']['localtime'];
     return WeatherModel(
-        date: DateTime.parse(date),
+        date: DateTimeHelper.parse(localTime),
         temp: jsonData['avgtemp_c'],
         maxTemp: jsonData['maxtemp_c'],
         minTemp: jsonData['mintemp_c'],
         state: WeatherStateExtension.fromString(jsonData['condition']['text']),
         icon: jsonData['condition']['icon']);
   }
+
   @override
-  String toString() {
-    return 'temp=$temp  minTemp=$minTemp maxTemp=$maxTemp';
-  }
+  List<Object?> get props => [
+        date,
+        temp,
+        maxTemp,
+        minTemp,
+        state,
+        icon,
+      ];
 }
 
-//Todo extend Equatable to make the model comparable and to make immutable.
-class _WeatherModel {
+/**
+ * class _WeatherModel {
   // ignore: slash_for_doc_comments
   /**SOLID Principle: Open/Closed Principle (OCP)
 Issue:
@@ -190,3 +173,6 @@ This increases coupling between the UI and the business logic.
     }
   }
 }
+
+ * 
+ */
